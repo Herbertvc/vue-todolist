@@ -3,7 +3,9 @@
     <input
       type="text"
       v-model="newTodoMsg"
-      @keyup.enter='onCreateTodo'>
+      @keyup.enter='onCreateTodo'
+      placeholder="Whats need to be done?"
+      class= "create-todo-input" >
     <list
       :todos="todos"
       v-on:onDeleteTodo="onDeleteTodo" 
@@ -51,3 +53,19 @@ import List from './List'
     }
   }
 </script>
+
+<style scoped>
+  .create-todo-input {
+    padding: 30px 10px 30px 40px;
+    width: 700px;
+    color: gray;
+    font-size: 25px;
+    outline: none;
+    border: none;
+    background: rgba(0, 0, 0, 0.003);
+    -webkit-box-shadow: 0px 16px 30px -7px rgba(0,0,0,0.31);
+    -moz-box-shadow: 0px 16px 30px -7px rgba(0,0,0,0.31);
+    box-shadow: 0px 16px 30px -7px rgba(0,0,0,0.31);
+
+  }
+</style>

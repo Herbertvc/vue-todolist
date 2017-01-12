@@ -1,5 +1,5 @@
 <template>
-  <li class="todo-done">
+  <li v-bind:class="{ 'todo-done': todo.isDone }">
     <button @click="completeTodo">complete</button>
     <span>{{ todo.message }}</span>
     <button @click="deleteTodo">delete</button>
@@ -10,10 +10,6 @@
   export default {
     name: 'list-item',
     props: ['todo', 'index'],
-    data: function() {
-      return {
-      }
-    },
     methods: {
       completeTodo: function() {
         this.$emit('onComplete');

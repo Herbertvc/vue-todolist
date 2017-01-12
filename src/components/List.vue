@@ -17,10 +17,6 @@ import ListItem from './ListItem'
       ListItem,
     },
     props: ['todos'],
-    data: function() {
-      return {
-      }
-    },
     methods: {
       onComplete: function(index) {
         this.$emit('onCompleteTodo', index);
