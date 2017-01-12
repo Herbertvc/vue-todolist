@@ -1,11 +1,13 @@
 <template>
-  <ul>
-    <list-item 
-      v-for="(todo, index) in todos"
-      :todo="todo"
-      v-on:onComplete="onComplete(index)"
-      v-on:onDelete="onDelete(index)" />
-  </ul>
+  <div>
+    <ul class="list">
+      <list-item 
+        v-for="(todo, index) in todos"
+        :todo="todo"
+        @onComplete="onComplete(index)"
+        @onDelete="onDelete(index)" />
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -27,3 +29,14 @@ import ListItem from './ListItem'
     }
   }
 </script>
+
+<style scpoped>
+  .list {
+    width: 100%;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    position: relative;
+    z-index: 2;
+  }
+</style>

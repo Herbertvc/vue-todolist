@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="todo-list-container">
     <input
       type="text"
       v-model="newTodoMsg"
@@ -7,29 +7,54 @@
       placeholder="Whats need to be done?"
       class= "create-todo-input" >
     <list
+      :todos="todosToShow"
+      @onDeleteTodo="onDeleteTodo" 
+      @onCompleteTodo="onCompleteTodo" />
+    <filter-list
+      v-show="todos.length > 0"
       :todos="todos"
-      v-on:onDeleteTodo="onDeleteTodo" 
-      v-on:onCompleteTodo="onCompleteTodo" />
+      @onFilter="onFilter" />
   </div>
 </template>
 
 <script>
 import List from './List'
+import FilterList from './FilterList'
+import { filter } from 'lodash/fp'
 
   export default {
     name: 'todo-list',
     components: {
       List,
+      FilterList,
     },
     data() {
       return {
         newTodoMsg: '',
+        filterType: '',
         todos: [
           {
             message: 'this is a test message',
             isDone: false,
           }
         ]
+      }
+    },
+    computed: {
+      todosToShow: function() {
+        let todosFiltered = {};
+        switch(this.filterType) {
+          case 'ACTIVE':
+            todosFiltered = filter(todo => !todo.isDone)(this.todos);
+            break;
+          case 'COMPLETED':
+            todosFiltered = filter(todo => todo.isDone)(this.todos);
+            break;
+          default:
+            todosFiltered = this.todos;
+            break;
+        }
+        return todosFiltered;
       }
     },
     methods: {
@@ -49,23 +74,32 @@ import List from './List'
       },
       onCompleteTodo: function(index) {
         this.todos[index].isDone = true;
-      }
+      },
+      onFilter: function(type) {
+        this.filterType = type;
+      },
     }
   }
 </script>
 
 <style scoped>
+  .todo-list-container {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
   .create-todo-input {
     padding: 30px 10px 30px 40px;
-    width: 700px;
+    width: 100%;
     color: gray;
     font-size: 25px;
     outline: none;
     border: none;
-    background: rgba(0, 0, 0, 0.003);
-    -webkit-box-shadow: 0px 16px 30px -7px rgba(0,0,0,0.31);
-    -moz-box-shadow: 0px 16px 30px -7px rgba(0,0,0,0.31);
-    box-shadow: 0px 16px 30px -7px rgba(0,0,0,0.31);
-
+    background: white;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0px 9px 30px 1px rgba(0,0,0,0.31);
+    -webkit-box-shadow: 0px 9px 30px 1px rgba(0,0,0,0.31);
+    -moz-box-shadow: 0px 9px 30px 1px rgba(0,0,0,0.31);
   }
 </style>
